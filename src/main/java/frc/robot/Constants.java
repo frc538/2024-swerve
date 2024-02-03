@@ -16,4 +16,9 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static class SparkMaxCANID {
+    public static final int kFrontRightDrive = 1;
+    public static final int kFrontRightTurn = 2;
+  }
 }
