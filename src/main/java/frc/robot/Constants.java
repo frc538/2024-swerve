@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -21,4 +23,13 @@ public final class Constants {
     public static final int kFrontRightDrive = 1;
     public static final int kFrontRightTurn = 2;
   }
+
+    public static class ModuleConstants{ 
+      public static double DriveGearing = 45.0*22/15/13;
+      public static double TurnPositionConversionFactor = 2*Math.PI;
+      public static double TurnVelocityConversionFactor = 2*Math.PI/60;
+      public static double DrivePositionConversionFactor = 2*Math.PI * Units.inchesToMeters(2)/DriveGearing;
+      public static double DriveVelocityConversionFactor = 2*Math.PI/60*Units.inchesToMeters(2)/DriveGearing;
+    }
+    
 }
