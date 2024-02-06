@@ -30,6 +30,30 @@ public final class Constants {
       public static double TurnVelocityConversionFactor = 2*Math.PI/60;
       public static double DrivePositionConversionFactor = 2*Math.PI * Units.inchesToMeters(2)/DriveGearing;
       public static double DriveVelocityConversionFactor = 2*Math.PI/60*Units.inchesToMeters(2)/DriveGearing;
+      public static double DriveWheelFreeSpeed = 5676.0 * 2*Math.PI * Units.inchesToMeters(2) /DriveGearing/60;
+
+      public static double DriveP = 0.4;
+      public static double DriveI = 0;
+      public static double DriveD = 0;
+      public static double Driveff = 1/DriveWheelFreeSpeed;
+      public static double DriveMin = -1;
+      public static double DriveMax = 1;
+      
+      public static double TurnP = 1;
+      public static double TurnI = 0;
+      public static double TurnD = 0;
+      public static double Turnff = 0;
+      public static double TurnMin = -1;
+      public static double TurnMax = 1;
+
+      public static double TrackWidth = Units.inchesToMeters(27);
+      public static double WheelBase = Units.inchesToMeters(26.5);
+
+      public static double DriveCurrentLimit = 50;
+      public static double TurnCurrentLimit = 20;
+
+      public static double MaxDriveMetersPerSecond = 4.46;
+      public static double MaxTurnRadiansPerSecond = 2*Math.PI;
     }
     
 }
