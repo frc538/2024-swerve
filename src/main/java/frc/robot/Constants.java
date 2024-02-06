@@ -60,8 +60,8 @@ public final class Constants {
     public static double TrackWidth = Units.inchesToMeters(27);
     public static double WheelBase = Units.inchesToMeters(26.5);
 
-    public static double DriveCurrentLimit = 50;
-    public static double TurnCurrentLimit = 20;
+    public static int DriveCurrentLimit = 50;
+    public static int TurnCurrentLimit = 20;
 
     public static double MaxDriveMetersPerSecond = 4.46;
     public static double MaxTurnRadiansPerSecond = 2 * Math.PI;

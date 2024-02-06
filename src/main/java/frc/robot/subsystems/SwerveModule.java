@@ -13,6 +13,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants;
 
 /** Add your docs here. */
 public class SwerveModule {
@@ -43,6 +44,38 @@ public class SwerveModule {
         drivePID.setFeedbackDevice(driveEncoder);
         turnPID.setFeedbackDevice(turnEncoder);
 
+        driveEncoder.setPositionConversionFactor(Constants.ModuleConstants.DrivePositionConversionFactor);
+        driveEncoder.setVelocityConversionFactor(Constants.ModuleConstants.DriveVelocityConversionFactor);
+
+        turnEncoder.setPositionConversionFactor(Constants.ModuleConstants.TurnPositionConversionFactor);
+        turnEncoder.setVelocityConversionFactor(Constants.ModuleConstants.TurnVelocityConversionFactor);
+
+        driveEncoder.setInverted(Constants.ModuleConstants.DriveEncoderInverted);
+        turnEncoder.setInverted(Constants.ModuleConstants.TurnEncoderInverted);
+
+        turnPID.setPositionPIDWrappingEnabled(true);
+        turnPID.setPositionPIDWrappingMinInput(Constants.ModuleConstants.TurnPIDMinInput);
+        turnPID.setPositionPIDWrappingMaxInput(Constants.ModuleConstants.TurnPIDMaxInput);
+
+        drivePID.setP(Constants.ModuleConstants.DriveP);
+        drivePID.setI(Constants.ModuleConstants.DriveI);
+        drivePID.setD(Constants.ModuleConstants.DriveD);
+        drivePID.setFF(Constants.ModuleConstants.DriveFF);
+        drivePID.setOutputRange(Constants.ModuleConstants.DriveMinOutput, Constants.ModuleConstants.DriveMaxOutput);
+
+        turnPID.setP(Constants.ModuleConstants.TurnP);
+        turnPID.setI(Constants.ModuleConstants.TurnI);
+        turnPID.setD(Constants.ModuleConstants.TurnD);
+        turnPID.setFF(Constants.ModuleConstants.TurnFF);
+        turnPID.setOutputRange(Constants.ModuleConstants.TurnMinOutput, Constants.ModuleConstants.TurnMaxOutput);
         
+        driveMotor.setIdleMode(Constants.ModuleConstants.DriveIdle);
+        turnMotor.setIdleMode(Constants.ModuleConstants.TurnIdle);
+
+        driveMotor.setSmartCurrentLimit(Constants.ModuleConstants.DriveCurrentLimit);
+        turnMotor.setSmartCurrentLimit(Constants.ModuleConstants.TurnCurrentLimit);
+
+        driveMotor.burnFlash();
+        turnMotor.burnFlash();
     }
 }
