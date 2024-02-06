@@ -77,5 +77,11 @@ public class SwerveModule {
 
         driveMotor.burnFlash();
         turnMotor.burnFlash();
+
+        angularOffset = offset;
+
+        desiredState.angle = new Rotation2d(turnEncoder.getPosition());
+
+        driveEncoder.setPosition(0);
     }
 }
