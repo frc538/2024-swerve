@@ -8,10 +8,12 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
 
@@ -25,8 +27,8 @@ public class SwerveModule {
     private final SparkPIDController drivePID;
     private final SparkPIDController turnPID;
 
-    private double angularOffset = 0;
-    private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
+    private double mAngularOffset = 0;
+    private SwerveModuleState mDesiredState = new SwerveModuleState(0.0, new Rotation2d());
 
     public SwerveModule(int driveId, int turnId, double offset){
         driveMotor = new CANSparkMax(driveId, MotorType.kBrushless);
@@ -78,10 +80,45 @@ public class SwerveModule {
         driveMotor.burnFlash();
         turnMotor.burnFlash();
 
-        angularOffset = offset;
+        mAngularOffset = offset;
 
-        desiredState.angle = new Rotation2d(turnEncoder.getPosition());
+        mDesiredState.angle = new Rotation2d(turnEncoder.getPosition());
 
         driveEncoder.setPosition(0);
+    }
+
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(
+            driveEncoder.getVelocity(),
+            new Rotation2d(
+                turnEncoder.getPosition() - mAngularOffset
+            )
+        );
+    }
+
+    public SwerveModulePosition gePosition(){
+        return new SwerveModulePosition(
+            driveEncoder.getPosition(),
+             new Rotation2d(
+                turnEncoder.getPosition() - mAngularOffset
+            )
+        );
+    }
+
+    public void reset(){
+        driveEncoder.setPosition(0);
+    }
+
+    public void setmDesiredState(SwerveModuleState desiredState){
+        SwerveModuleState correctedState = new SwerveModuleState();
+        correctedState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
+        correctedState.angle =desiredState.angle.plus(Rotation2d.fromRadians(mAngularOffset));
+
+       SwerveModuleState optimizedState = SwerveModuleState.optimize(correctedState, new Rotation2d(turnEncoder.getPosition()));
+
+        drivePID.setReference(optimizedState.speedMetersPerSecond, ControlType.kVelocity);
+        turnPID.setReference(optimizedState.angle.getRadians(), ControlType.kPosition);
+
+        mDesiredState = desiredState;
     }
 }
