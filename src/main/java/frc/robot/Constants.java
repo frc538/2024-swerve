@@ -70,7 +70,7 @@ public final class Constants {
     public static boolean TurnEncoderInverted = true;
 
     public static double TurnPIDMinInput = 0;
-    public static double TurnPIDMaxInput = 2*Math.PI;
+    public static double TurnPIDMaxInput = 2 * Math.PI;
 
     public static IdleMode DriveIdle = IdleMode.kBrake;
     public static IdleMode TurnIdle = IdleMode.kBrake;

@@ -30,7 +30,7 @@ public class SwerveModule {
     private double mAngularOffset = 0;
     private SwerveModuleState mDesiredState = new SwerveModuleState(0.0, new Rotation2d());
 
-    public SwerveModule(int driveId, int turnId, double offset){
+    public SwerveModule(int driveId, int turnId, double offset) {
         driveMotor = new CANSparkMax(driveId, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnId, MotorType.kBrushless);
 
@@ -39,7 +39,7 @@ public class SwerveModule {
 
         driveEncoder = driveMotor.getEncoder();
         turnEncoder = turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
-        
+
         drivePID = driveMotor.getPIDController();
         turnPID = turnMotor.getPIDController();
 
@@ -70,7 +70,7 @@ public class SwerveModule {
         turnPID.setD(Constants.ModuleConstants.TurnD);
         turnPID.setFF(Constants.ModuleConstants.TurnFF);
         turnPID.setOutputRange(Constants.ModuleConstants.TurnMinOutput, Constants.ModuleConstants.TurnMaxOutput);
-        
+
         driveMotor.setIdleMode(Constants.ModuleConstants.DriveIdle);
         turnMotor.setIdleMode(Constants.ModuleConstants.TurnIdle);
 
@@ -89,32 +89,29 @@ public class SwerveModule {
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-            driveEncoder.getVelocity(),
-            new Rotation2d(
-                turnEncoder.getPosition() - mAngularOffset
-            )
-        );
+                driveEncoder.getVelocity(),
+                new Rotation2d(
+                        turnEncoder.getPosition() - mAngularOffset));
     }
 
-    public SwerveModulePosition gePosition(){
+    public SwerveModulePosition gePosition() {
         return new SwerveModulePosition(
-            driveEncoder.getPosition(),
-             new Rotation2d(
-                turnEncoder.getPosition() - mAngularOffset
-            )
-        );
+                driveEncoder.getPosition(),
+                new Rotation2d(
+                        turnEncoder.getPosition() - mAngularOffset));
     }
 
-    public void reset(){
+    public void reset() {
         driveEncoder.setPosition(0);
     }
 
-    public void setmDesiredState(SwerveModuleState desiredState){
+    public void setmDesiredState(SwerveModuleState desiredState) {
         SwerveModuleState correctedState = new SwerveModuleState();
         correctedState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
-        correctedState.angle =desiredState.angle.plus(Rotation2d.fromRadians(mAngularOffset));
+        correctedState.angle = desiredState.angle.plus(Rotation2d.fromRadians(mAngularOffset));
 
-       SwerveModuleState optimizedState = SwerveModuleState.optimize(correctedState, new Rotation2d(turnEncoder.getPosition()));
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(correctedState,
+                new Rotation2d(turnEncoder.getPosition()));
 
         drivePID.setReference(optimizedState.speedMetersPerSecond, ControlType.kVelocity);
         turnPID.setReference(optimizedState.angle.getRadians(), ControlType.kPosition);
