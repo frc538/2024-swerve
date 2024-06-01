@@ -52,7 +52,6 @@ public class SwerveModule {
         turnEncoder.setPositionConversionFactor(Constants.ModuleConstants.TurnPositionConversionFactor);
         turnEncoder.setVelocityConversionFactor(Constants.ModuleConstants.TurnVelocityConversionFactor);
 
-        driveEncoder.setInverted(Constants.ModuleConstants.DriveEncoderInverted);
         turnEncoder.setInverted(Constants.ModuleConstants.TurnEncoderInverted);
 
         turnPID.setPositionPIDWrappingEnabled(true);

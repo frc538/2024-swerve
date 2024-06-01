@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -25,9 +27,25 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class DriveConstants{
+    public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
+    public static final double kFrontRightChassisAngularOffset = 0;
+    public static final double kBackLeftChassisAngularOffset = Math.PI;
+    public static final double kBackRightChassisAngularOffset = Math.PI / 2;
+    public static final double kMaxSpeedMetersPerSecond = 4.8;
+    public static final double kMaxAngularSpeed = 2 * Math.PI;
+
+  }
+
   public static class SparkMaxCANID {
-    public static final int kFrontRightDrive = 1;
-    public static final int kFrontRightTurn = 2;
+    public static final int kFrontRightDrive = 23;
+    public static final int kFrontRightTurn = 15;
+    public static final int kFrontLeftDrive = 12;
+    public static final int kFrontLeftTurn = 9;
+    public static final int kRearRightDrive = 22;
+    public static final int kRearRightTurn = 1;
+    public static final int kRearLeftDrive = 11;
+    public static final int kRearLefttTurn = 2;
   }
 
   public static class ModuleConstants {
@@ -57,8 +75,15 @@ public final class Constants {
     public static double TurnMinOutput = -1;
     public static double TurnMaxOutput = 1;
 
-    public static double TrackWidth = Units.inchesToMeters(27);
+    public static double TrackWidth = Units.inchesToMeters(26.5);
     public static double WheelBase = Units.inchesToMeters(26.5);
+
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+      new Translation2d(WheelBase / 2, TrackWidth / 2), 
+      new Translation2d(WheelBase / 2, -TrackWidth / 2),
+      new Translation2d(-WheelBase / 2, TrackWidth / 2),
+      new Translation2d(-WheelBase / 2, -TrackWidth / 2)
+    );
 
     public static int DriveCurrentLimit = 50;
     public static int TurnCurrentLimit = 20;

@@ -48,11 +48,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    m_driverController.button(1).whileTrue(mDriveSubsystem.setXCommand());
+
     mDriveSubsystem.setDefaultCommand(Commands.run(() -> {
       double forwardSpeed = -m_driverController.getY();
-      double rightSpeed = m_driverController.getX();
+      double leftSpeed = -m_driverController.getX();
       double counterclockwiseSpeed = -m_driverController.getZ();
-      mDriveSubsystem.robotCentricDrive(forwardSpeed, rightSpeed, counterclockwiseSpeed);
+      mDriveSubsystem.drive(forwardSpeed, leftSpeed, counterclockwiseSpeed);
     }, mDriveSubsystem));
   }
 
