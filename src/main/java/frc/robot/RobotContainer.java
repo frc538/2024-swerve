@@ -51,9 +51,14 @@ public class RobotContainer {
     m_driverController.button(1).whileTrue(mDriveSubsystem.setXCommand());
 
     mDriveSubsystem.setDefaultCommand(Commands.run(() -> {
-      double forwardSpeed = -m_driverController.getY();
-      double leftSpeed = -m_driverController.getX();
-      double counterclockwiseSpeed = -m_driverController.getZ();
+      double forwardSpeed = Math.pow(-m_driverController.getY(), 3);
+      double leftSpeed = Math.pow(-m_driverController.getX(), 3);
+      double counterclockwiseSpeed = Math.pow ( -m_driverController.getZ(), 3);
+
+      if (Math.abs(forwardSpeed) < 0.1) forwardSpeed = 0;
+      if (Math.abs(leftSpeed) < 0.1) leftSpeed = 0;
+      if (Math.abs(counterclockwiseSpeed) < 0.1) counterclockwiseSpeed = 0;
+
       mDriveSubsystem.drive(forwardSpeed, leftSpeed, counterclockwiseSpeed);
     }, mDriveSubsystem));
   }
