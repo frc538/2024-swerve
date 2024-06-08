@@ -59,7 +59,7 @@ public class RobotContainer {
       if (Math.abs(leftSpeed) < 0.1) leftSpeed = 0;
       if (Math.abs(counterclockwiseSpeed) < 0.1) counterclockwiseSpeed = 0;
 
-      mDriveSubsystem.drive(forwardSpeed, leftSpeed, counterclockwiseSpeed);
+      mDriveSubsystem.drive(forwardSpeed, leftSpeed, counterclockwiseSpeed, true);
     }, mDriveSubsystem));
   }
 
