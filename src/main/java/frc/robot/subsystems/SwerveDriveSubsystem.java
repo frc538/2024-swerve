@@ -80,7 +80,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         directionSlewRate = 500.0;
       }
 
-      double currentTime = WPIUtilJNI.now();
+      double currentTime = WPIUtilJNI.now() * 1e-6;
       double elapsedTime = currentTime - mPreviousTime;
       double angleDifference = SwerveUtils.angleDifference(inputTranslationDirection, mCurrentTranslationDirection);
 
