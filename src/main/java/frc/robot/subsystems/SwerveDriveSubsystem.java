@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -41,6 +42,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       Constants.DriveConstants.kBackRightChassisAngularOffset);
 
   private final Pigeon2 mGyro = new Pigeon2(0);
+  private final Spark mLights = new Spark(0);
   private boolean mIsFieldRelative = false;
 
   private double mPreviousTime = WPIUtilJNI.now() * 1e-6;
@@ -150,5 +152,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Is Field Relative?", mIsFieldRelative);
     SmartDashboard.putNumber("Gyro Angle", mGyro.getYaw().getValueAsDouble());
+    mLights.set(mIsFieldRelative? 0.77: 0.61);
   }
 }
