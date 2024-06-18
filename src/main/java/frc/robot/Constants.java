@@ -80,8 +80,8 @@ public final class Constants {
     public static double TurnMinOutput = -1;
     public static double TurnMaxOutput = 1;
 
-    public static double TrackWidth = Units.inchesToMeters(26.5);
-    public static double WheelBase = Units.inchesToMeters(26.5);
+    public static double TrackWidth = Units.inchesToMeters(25.5);
+    public static double WheelBase = Units.inchesToMeters(25.5);
 
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
       new Translation2d(WheelBase / 2, TrackWidth / 2), 
