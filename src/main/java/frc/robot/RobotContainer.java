@@ -49,6 +49,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_driverController.button(1).whileTrue(mDriveSubsystem.setXCommand());
+    m_driverController.button(2).onTrue(mDriveSubsystem.toggleFieldRelative());
 
     mDriveSubsystem.setDefaultCommand(Commands.run(() -> {
       double forwardSpeed = Math.pow(-m_driverController.getY(), 3);

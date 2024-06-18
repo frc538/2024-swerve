@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.fasterxml.jackson.databind.node.DoubleNode;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -40,6 +40,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       Constants.SparkMaxCANID.kRearRightTurn,
       Constants.DriveConstants.kBackRightChassisAngularOffset);
 
+  private final Pigeon2 mGyro = new Pigeon2(0);
+  private boolean mIsFieldRelative = false;
+
   private double mPreviousTime = WPIUtilJNI.now() * 1e-6;
 
   private double mCurrentRotation = 0;
@@ -62,6 +65,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   public Command setXCommand() {
     return Commands.run(() -> setX(), this);
+  }
+
+  public Command toggleFieldRelative(){
+    return Commands.runOnce(() -> mIsFieldRelative = !mIsFieldRelative, this);
+
   }
 
   public void drive(double forwardSpeed, double leftSpeed, double rotation, boolean rateLimit) {
@@ -119,7 +127,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     double rotationDelivered = mCurrentRotation * Constants.DriveConstants.kMaxAngularSpeed;
 
     var swerveModuleStates = Constants.ModuleConstants.kDriveKinematics.toSwerveModuleStates(
-        new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotationDelivered));
+        mIsFieldRelative
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotationDelivered,
+                Rotation2d.fromDegrees(mGyro.getYaw().getValueAsDouble()))
+            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotationDelivered));
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     mFrontLeft.setmDesiredState(swerveModuleStates[0]);
@@ -137,5 +148,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Is Field Relative?", mIsFieldRelative);
+    SmartDashboard.putNumber("Gyro Angle", mGyro.getYaw().getValueAsDouble());
   }
 }
