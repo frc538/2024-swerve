@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -50,6 +51,7 @@ public class RobotContainer {
   private void configureBindings() {
     m_driverController.button(1).whileTrue(mDriveSubsystem.setXCommand());
     m_driverController.button(2).onTrue(mDriveSubsystem.toggleFieldRelative());
+    m_driverController.button(7).or(m_driverController.button(8)).onTrue(mDriveSubsystem.resetGyroCommand());
 
     mDriveSubsystem.setDefaultCommand(Commands.run(() -> {
       double forwardSpeed = Math.pow(-m_driverController.getY(), 3);

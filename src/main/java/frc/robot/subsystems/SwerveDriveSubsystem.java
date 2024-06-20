@@ -56,6 +56,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   /** Creates a new SwerveDriveSubsystem. */
   public SwerveDriveSubsystem() {
+    mGyro.setYaw(0);
   }
 
   public void setX() {
@@ -71,7 +72,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   public Command toggleFieldRelative(){
     return Commands.runOnce(() -> mIsFieldRelative = !mIsFieldRelative, this);
+  }
 
+  public Command resetGyroCommand(){
+    return Commands.runOnce(() -> mGyro.setYaw(0), this);
   }
 
   public void drive(double forwardSpeed, double leftSpeed, double rotation, boolean rateLimit) {
