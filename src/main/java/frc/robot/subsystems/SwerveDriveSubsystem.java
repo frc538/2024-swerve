@@ -145,11 +145,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     mBackRight.setmDesiredState(swerveModuleStates[3]);
   }
 
-  public void robotCentricDrive(double forwardSpeed, double rightSpeed, double counterclockwiseRotation) {
-    SmartDashboard.putNumber("Forward", forwardSpeed);
-    SmartDashboard.putNumber("Right", rightSpeed);
-    SmartDashboard.putNumber("CounterClockWise", counterclockwiseRotation);
-  }
 
   @Override
   public void periodic() {

@@ -6,7 +6,12 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+
+import java.util.concurrent.DelayQueue;
+
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -23,8 +28,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private final SendableChooser<Command> mAutoChooser = new SendableChooser<>();
+
   private final CommandJoystick m_driverController = new CommandJoystick(OperatorConstants.kDriverControllerPort);
   private final SwerveDriveSubsystem mDriveSubsystem = new SwerveDriveSubsystem();
+  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -32,6 +40,14 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
+    mAutoChooser.setDefaultOption("No auto", null);
+    Command instant = Commands
+      .run(() -> mDriveSubsystem.drive(0.5, 0, 0, true), mDriveSubsystem)
+      .withTimeout(3);
+    mAutoChooser.addOption("Instant Auto", instant);
+
+    SmartDashboard.putData("Auto Selector", mAutoChooser);
   }
 
   /**
@@ -73,6 +89,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return mAutoChooser.getSelected();
   }
 }
